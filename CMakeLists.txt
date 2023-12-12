@@ -1,5 +1,8 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.5 FATAL_ERROR)
 
+# Allow specifying -D<PackageName>_ROOT
+CMAKE_POLICY(SET CMP0074 NEW)
+
 # ---[ Project
 PROJECT(pthreadpool C)
 
@@ -210,14 +213,14 @@ IF(PTHREADPOOL_BUILD_TESTS)
   SET_TARGET_PROPERTIES(pthreadpool-test PROPERTIES
     CXX_STANDARD 11
     CXX_EXTENSIONS NO)
-  TARGET_LINK_LIBRARIES(pthreadpool-test pthreadpool gtest gtest_main)
+  TARGET_LINK_LIBRARIES(pthreadpool-test pthreadpool GTest::gtest GTest::gtest_main)
   ADD_TEST(pthreadpool pthreadpool-test)
 
   ADD_EXECUTABLE(pthreadpool-cxx-test test/pthreadpool-cxx.cc)
   SET_TARGET_PROPERTIES(pthreadpool-cxx-test PROPERTIES
     CXX_STANDARD 11
     CXX_EXTENSIONS NO)
-  TARGET_LINK_LIBRARIES(pthreadpool-cxx-test pthreadpool gtest gtest_main)
+  TARGET_LINK_LIBRARIES(pthreadpool-cxx-test pthreadpool GTest::gtest GTest::gtest_main)
   ADD_TEST(pthreadpool-cxx pthreadpool-cxx-test)
 ENDIF()
 
@@ -234,11 +237,11 @@ IF(PTHREADPOOL_BUILD_BENCHMARKS)
   SET_TARGET_PROPERTIES(latency-bench PROPERTIES
     CXX_STANDARD 11
     CXX_EXTENSIONS NO)
-  TARGET_LINK_LIBRARIES(latency-bench pthreadpool benchmark)
+  TARGET_LINK_LIBRARIES(latency-bench pthreadpool benchmark::benchmark)
 
   ADD_EXECUTABLE(throughput-bench bench/throughput.cc)
   SET_TARGET_PROPERTIES(throughput-bench PROPERTIES
     CXX_STANDARD 11
     CXX_EXTENSIONS NO)
-  TARGET_LINK_LIBRARIES(throughput-bench pthreadpool benchmark)
+  TARGET_LINK_LIBRARIES(throughput-bench pthreadpool benchmark::benchmark)
 ENDIF()
